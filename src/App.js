@@ -1,4 +1,6 @@
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import Phrase from './Phrase'
 
 const Container = styled.div`
 	display: flex;
@@ -22,6 +24,8 @@ function App() {
 
 	const URL = 'http://breaking-bad-quotes.herokuapp.com/v1/quotes'
 
+	const [phrase, showPhrase] = useState({})
+
 	const handleGetPhrase = () => {
 		apiConsume()
 	}
@@ -29,11 +33,14 @@ function App() {
 	const apiConsume = async () => {
 		const api = await fetch( URL )
 		const result = await api.json()
-		console.log( result[0] )
+		showPhrase(result[0])
 	}
 
   return (
     <Container>
+			{phrase && Object.keys(phrase).length > 0 && (
+				<Phrase phrase={ phrase } />
+			)}
 			<Button
 				onClick={ handleGetPhrase }
 				>Get Phrase
